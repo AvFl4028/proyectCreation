@@ -1,21 +1,17 @@
 import subprocess
 import os
 
-
 def create_directory(path):
     if not os.path.exists(path):
-        # Crear el directorio
         os.makedirs(path)
         print("Directorio creado exitosamente.")
     else:
         print("El directorio ya existe.")
 
-
 def command_maker_react(directory):
     print("Esto puede tardar unos minutos (depende de su internet)")
     output = subprocess.check_output(f"npx create-react-app {directory}", shell=True)
     print(output.decode())
-
 
 def command_maker_js(directory):
     html = open(f"{directory}/index.html", "w")
@@ -43,7 +39,6 @@ def command_maker_js(directory):
 
     print("Archivos generados exitosamente")
 
-
 def command_maker_arduino():
     print("Ruta: ")
     path = input()
@@ -60,34 +55,18 @@ def command_maker_arduino():
     ino.close()
     print("Archivos generados exitosamente")
 
-
-def select_project_for_create():
-    global directory_path
-    print("Selecciona una opción")
-    print("1- React Vanilla (default)     2- JS Vanilla   3- Arduino")
-    value = input()
-
-    if value == "":
-        value = "1"
-
-    if value != "3":
-        print("Ruta (con carpeta sin crear o vacia): ")
-        directory_path = input()
-
-    if value == "1":
-        create_directory(directory_path)
-        command_maker_react(directory_path)
-        return
-
-    if value == "2":
-        create_directory(directory_path)
-        command_maker_js(directory_path)
-        return
-
-    if value == "3":
-        command_maker_arduino()
-        return
-
-
 if __name__ == "__main__":
-    select_project_for_create()
+    print("Selecciona una opción")
+    print("1- React Vanilla (default)\t2- JS Vanilla\t3- Arduino")
+    value = input("-> ")
+    directory_path = ''
+    if value != '3':
+        directory_path = input("Ruta (con carpeta vacía) => ")
+    
+    match value:
+        case ''|'1':
+            command_maker_react(directory_path)
+        case '2': 
+            command_maker_js(directory_path)
+        case '3':
+            command_maker_arduino()            
